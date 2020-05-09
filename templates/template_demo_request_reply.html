@@ -1,0 +1,35 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+<head>
+</head>
+
+<body>
+<p>Dear {{.Name}},</p>
+<p>
+Thank you for your interest in our products. Please find below information to get access to the demo platform.
+</p>
+
+<ul>
+        <li>URL: <a href="{{.DemoURL}}">{{.DemoURL}}</a></li>
+        <li>Login: demo</li>
+        <li>Password: 95t8aLLj</li>
+</ul>
+<p>Enjoy and don't hesitate to contact us if you do have any feedback.</p>
+<p>
+Kind regards,<br/>
+The Product Team
+</p>
+
+<hr />
+<legend>Request Summary</legend>
+<ul>
+        <li>Name: {{.Name}}</li>
+        <li>Email: {{.Email}}</li>
+        <li>Organization: {{.Organization}}</li>
+</ul>
+
+    
+</body>
+
+</html>
