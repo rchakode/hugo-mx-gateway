@@ -16,6 +16,9 @@ TEMPLATE_DEMO_REQUEST_REPLY=templates/template_demo_request_reply.html
 TEMPLATE_CONTACT_REQUEST_REPLY=templates/template_contact_request_reply.html
 ```
 
+## SMTP
+https://cloud.google.com/compute/docs/tutorials/sending-mail/using-mailgun?hl=fr
+
 # Build
 
 ```sh

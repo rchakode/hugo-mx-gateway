@@ -16,6 +16,11 @@ PACKER_CONF_FILE="./deploy/packer/cloud-image.json"
 
 all: test build
 
+deploy:
+	which gcloud
+	gcloud components install app-engine-go
+	gcloud app deploy
+
 build:
 	$(GOBUILD) -o $(PACKAGE_NAME) -v
 
@@ -37,7 +42,7 @@ run:
 deps: vendor
 
 vendor:
-	$(GO) mode vendor
+	$(GO) mod vendor
 
 docker-build:
 	docker run --rm -it -v "$(GOPATH)":/go -w /go/src/bitbucket.org/rsohlich/makepost golang:latest go build -o "$(BINARY_UNIX)" -v
