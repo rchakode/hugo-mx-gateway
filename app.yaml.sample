@@ -1,0 +1,13 @@
+runtime: go112
+
+env_variables:
+  SMTP_SERVER_ADDR: "smtp.mailgun.org:587"
+  SMTP_VERITY_CERT: true
+  SMTP_CLIENT_USERNAME: "postmaster@example.com"
+  SMTP_CLIENT_PASSWORD: "postmasterSecretPassWord"
+  CONTACT_REPLY_EMAIL: "noreply@example.com"
+  CONTACT_REPLY_CC_EMAIL: "contact@example.com"
+  DEMO_URL: "https://demo.example.com/"
+  ALLOWED_ORIGIN_DOMAIN: "example.com"
+  TEMPLATE_DEMO_REQUEST_REPLY: templates/template_reply_demo_request.html
+  TEMPLATE_CONTACT_REQUEST_REPLY: templates/template_reply_contact_request.html
