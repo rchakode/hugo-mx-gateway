@@ -19,7 +19,7 @@ all: test build
 deploy:
 	which gcloud
 	gcloud components install app-engine-go
-	gcloud app deploy
+	gcloud app deploy --quiet
 
 build:
 	$(GOBUILD) -o $(PACKAGE_NAME) -v

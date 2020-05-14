@@ -1,52 +1,3 @@
-# Overview
-
-
-# Configuration variables
-
-* Create the App Engine configuration file
-    ```
-    cp app.yaml.sample app.yaml
-    ```
-* Edit the `app.yaml` file with your favorite editor and set the following environement variables appropriately:
-
-```
-  SMTP_SERVER_ADDR: "smtp.mailgun.org:587"
-  SMTP_VERITY_CERT: true
-  SMTP_CLIENT_USERNAME: "postmaster@example.com"
-  SMTP_CLIENT_PASSWORD: "postmasterSecretPassWord"
-  CONTACT_REPLY_EMAIL: "noreply@example.com"
-  CONTACT_REPLY_CC_EMAIL: "contact@example.com"
-  DEMO_URL: "https://demo.example.com/"
-  ALLOWED_ORIGIN_DOMAIN: "example.com"
-```
-
-
-## Required HTTP Headers
-
-* `Origin`
-* `Referer`
-
-## SMTP
-https://cloud.google.com/compute/docs/tutorials/sending-mail/using-mailgun?hl=fr
-
-## Test
-```
-curl -H'Origin: http://realopinsight.com'  \
-    -H'Referer: realopinsight.com' \
-    -H'Content-Type: application/x-www-form-urlencoded' \
-    -d 'target=contact' \
-    -XPOST https://hugo-mx-gateway.ew.r.appspot.com/sendmail 
-```
-# Build
-```sh
-make build
-```
-
-# Hugo Contact Form
-See `./model/hugo-contact-form.html`.
-
-
-```
 <div id="reply-message"></div>
 <div>
    <fieldset>
@@ -84,4 +35,3 @@ See `./model/hugo-contact-form.html`.
       </form>
    </fieldset>
 </div>
-```

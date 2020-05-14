@@ -22,12 +22,12 @@ import (
 	"encoding/json"
 	"fmt"
 	"html/template"
-	"log"
 	"net"
 	"net/http"
 	"net/smtp"
 	"strings"
 
+	log "github.com/sirupsen/logrus"
 	"github.com/spf13/viper"
 )
 
@@ -79,7 +79,7 @@ func (m *SendMailRequest) Execute() error {
 
 	// TLS config
 	tlsconfig := &tls.Config{
-		InsecureSkipVerify: true,
+		InsecureSkipVerify: viper.GetBool("SMTP_VERITY_CERT"),
 		ServerName:         smtpServerHost,
 	}
 
@@ -151,24 +151,25 @@ func (m *SendMailRequest) ParseTemplate(templateFileName string, data interface{
 // SendMail handles HTTP request to send email
 func SendMail(httpResp http.ResponseWriter, httpReq *http.Request) {
 
-	AllowedOriginDomain := viper.GetString("ALLOWED_ORIGIN_DOMAIN")
-	AllowedOrigins := map[string]bool{
-		fmt.Sprintf("http://%s", AllowedOriginDomain):      true,
-		fmt.Sprintf("https://%s", AllowedOriginDomain):     true,
-		fmt.Sprintf("http://www.%s", AllowedOriginDomain):  true,
-		fmt.Sprintf("https://www.%s", AllowedOriginDomain): true,
+	allowedDomains := strings.Split(viper.GetString("ALLOWED_ORIGINS"), ",")
+	allowedOrigins := make(map[string]bool)
+	for _, domain := range allowedDomains {
+		domainTrimmed := strings.TrimSpace(domain)
+		allowedOrigins[fmt.Sprintf("http://%s", domainTrimmed)] = true
+		allowedOrigins[fmt.Sprintf("https://%s", domainTrimmed)] = true
+		allowedOrigins[fmt.Sprintf("http://www.%s", domainTrimmed)] = true
+		allowedOrigins[fmt.Sprintf("https://www.%s", domainTrimmed)] = true
 	}
-
 	if len(httpReq.Header["Origin"]) == 0 || len(httpReq.Header["Referer"]) == 0 {
 		rawHeader, _ := json.Marshal(httpReq.Header)
-		log.Println("request with unexpected headers:", string(rawHeader))
+		log.Infoln("request with unexpected headers", string(rawHeader))
 		httpResp.WriteHeader(http.StatusForbidden)
 		return
 	}
 
 	reqOrigin := httpReq.Header["Origin"][0]
-	if _, domainFound := AllowedOrigins[reqOrigin]; !domainFound {
-		log.Println("Not allowed origin:", reqOrigin)
+	if _, domainFound := allowedOrigins[reqOrigin]; !domainFound {
+		log.Errorln("not allowed origin", reqOrigin)
 		httpResp.WriteHeader(http.StatusForbidden)
 		return
 	}
@@ -191,13 +192,13 @@ func SendMail(httpResp http.ResponseWriter, httpReq *http.Request) {
 	case "contact":
 		recipients = []string{viper.GetString("CONTACT_REPLY_CC_EMAIL")}
 	default:
-		log.Println("Not allowed request type:", contactRequest.RequestTarget)
+		log.Infoln("not allowed request type:", contactRequest.RequestTarget)
 		httpResp.WriteHeader(http.StatusForbidden)
 		return
 	}
 
 	userData, _ := json.Marshal(contactRequest)
-	log.Println("New Request:", string(userData))
+	log.Infoln("New Request:", string(userData))
 
 	templateData := struct {
 		Name         string
@@ -233,7 +234,7 @@ func SendMail(httpResp http.ResponseWriter, httpReq *http.Request) {
 	if err == nil {
 		err := sendMailReq.Execute()
 		if err != nil {
-			log.Printf("error: %s", err.Error())
+			log.Infof("error: %s", err.Error())
 			contactResponse.Status = "error"
 			contactResponse.Message = fmt.Sprintf("An internal error occurred, please try later or send us an email at %s.", viper.GetString("CONTACT_REPLY_CC_EMAIL"))
 		} else {
@@ -245,7 +246,7 @@ func SendMail(httpResp http.ResponseWriter, httpReq *http.Request) {
 			}
 		}
 	} else {
-		log.Printf("error: %s", err.Error())
+		log.Infof("error: %s", err.Error())
 		contactResponse.Status = "error"
 		contactResponse.Message = "Invalid request, please review your input and try again."
 	}

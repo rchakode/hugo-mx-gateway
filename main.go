@@ -18,7 +18,8 @@ package main
 
 import (
 	"net/http"
-    "time"
+	"time"
+	"os"
 
 	"github.com/spf13/viper"
 	"github.com/gorilla/mux"
@@ -76,7 +77,6 @@ func NewRouter() *mux.Router {
 
 func main() {
 	viper.AutomaticEnv()
-	viper.SetDefault("SERVER_ADDR", ":8080")
 	viper.SetDefault("SERVER_TLS_CERT", "/etc/cert/cert.pem")
 	viper.SetDefault("SERVER_TLS_PRIVATEKEY", "/etc/cert/privkey.pem")
 	viper.SetDefault("SMTP_SERVER_ADDR", "127.0.0.1:465")
@@ -87,13 +87,17 @@ func main() {
 	viper.SetDefault("EMAIL_SUBJECT", "Thanks to try our product")
 	viper.SetDefault("DEMO_URL", "http://company.com/product-demo")
 
+	port := os.Getenv("PORT")
+	if port == "" {
+		port = "8080"
+		log.Infof("Defaulting to port %s", port)
+	}
+
 	router := NewRouter()
 
-	serverAddr := viper.GetString("SERVER_ADDR")
+	log.Infof("Listening on port %s", port)
 
-	log.Infof("Listening on %s", serverAddr)
-	
-	log.Fatal(http.ListenAndServe(serverAddr, router))
+	log.Fatal(http.ListenAndServe(":"+port, router))
 }
 
 
