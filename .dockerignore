@@ -1,0 +1,7 @@
+.vscode
+.git
+go.mod
+go.sum
+*.go
+helm
+.*ignore
