@@ -9,8 +9,12 @@ GOVENDOR=$(GOCMD) mod vendor
 GOIMAGE=golang:1.13.10
 UPX=upx
 
-all: test build
+all: deps test build
 
+deps: vendor
+vendor:
+	$(GOVENDOR)
+	
 build:
 	$(GOBUILD) -o $(PACKAGE_NAME) -v
 
@@ -43,6 +47,7 @@ run:
 	$(GOBUILD) -o $(PACKAGE_NAME) -v ./...
 	$(PACKAGE_NAME)
 
-deps: vendor
-vendor:
-	$(GOVENDOR)
+deploy-gcp:
+	which gcloud
+	gcloud components install app-engine-go
+	gcloud app deploy --quiet
