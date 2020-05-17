@@ -1,0 +1,23 @@
+name: Docker image
+on:
+  push:
+    tags:
+      - v*
+jobs:
+  build:
+    runs-on: ubuntu-18.04
+    steps:
+    - uses: actions/checkout@v1
+    - name: Build and push Docker image
+      env:
+        IMAGE_REPO: rchakode/kube-mx-gateway
+        REGISTRY_PASSWORD: ${{ secrets.REGISTRY_PASSWORD }}
+        REGISTRY_USERNAME: ${{ secrets.REGISTRY_USERNAME }}
+      run: |
+        make build-ci
+        export GIT_TAG=$(git describe --tags `git rev-list --tags --max-count=1`)
+        export IMAGE_TAG=$(echo $GIT_TAG | sed 's/v//')
+        docker build . --file Dockerfile --tag ${IMAGE_REPO}:${IMAGE_TAG}
+        docker tag ${IMAGE_REPO}:${IMAGE_TAG} ${IMAGE_REPO}:latest
+        echo "$REGISTRY_PASSWORD" | docker login -u $REGISTRY_USERNAME --password-stdin
+        docker push ${IMAGE_REPO}

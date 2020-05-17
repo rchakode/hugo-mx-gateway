@@ -1,0 +1,39 @@
+name: Go
+
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+
+jobs:
+
+  build:
+    name: Build
+    runs-on: ubuntu-18.04
+    env:
+      GOPATH: ${{ github.workspace }}
+      GOCACHE:  /tmp/gocache 
+
+    steps:
+    - name: Set up Go 1.13
+      uses: actions/setup-go@v1
+      with:
+        go-version: 1.13
+
+    - name: Check out code
+      uses: actions/checkout@v2
+      with:
+        path: ./src/github.com/${{ github.repository }}
+
+    - name: Setup build environment   
+      run: |
+        mkdir -p $GOCACHE
+        cd ./src/github.com/${{ github.repository }}
+        go version
+
+    - name: Test and build package
+      run: |
+        cd ./src/github.com/${{ github.repository }}
+        make test
+        make build
