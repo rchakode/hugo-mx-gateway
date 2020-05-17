@@ -1,6 +1,8 @@
 runtime: go112
 
 env_variables:
+  TEMPLATE_DEMO_REQUEST_REPLY: templates/template_reply_demo_request.html
+  TEMPLATE_CONTACT_REQUEST_REPLY: templates/template_reply_contact_request.html
   SMTP_SERVER_ADDR: "smtp.mailgun.org:587"
   SMTP_VERITY_CERT: true
   SMTP_CLIENT_USERNAME: "postmaster@example.com"
