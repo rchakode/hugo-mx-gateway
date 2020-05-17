@@ -188,9 +188,9 @@ func SendMail(httpResp http.ResponseWriter, httpReq *http.Request) {
 	var recipients []string
 	switch contactRequest.RequestTarget {
 	case "demo":
-		recipients = []string{contactRequest.Email, viper.GetString("CONTACT_REPLY_CC_EMAIL")}
+		recipients = []string{contactRequest.Email, viper.GetString("CONTACT_REPLY_BCC_EMAIL")}
 	case "contact":
-		recipients = []string{viper.GetString("CONTACT_REPLY_CC_EMAIL")}
+		recipients = []string{viper.GetString("CONTACT_REPLY_BCC_EMAIL")}
 	default:
 		log.Infoln("not allowed request type:", contactRequest.RequestTarget)
 		httpResp.WriteHeader(http.StatusForbidden)
@@ -236,7 +236,7 @@ func SendMail(httpResp http.ResponseWriter, httpReq *http.Request) {
 		if err != nil {
 			log.Infof("error: %s", err.Error())
 			contactResponse.Status = "error"
-			contactResponse.Message = fmt.Sprintf("An internal error occurred, please try later or send us an email at %s.", viper.GetString("CONTACT_REPLY_CC_EMAIL"))
+			contactResponse.Message = fmt.Sprintf("An internal error occurred, please try later or send us an email at %s.", viper.GetString("CONTACT_REPLY_BCC_EMAIL"))
 		} else {
 			contactResponse.Status = "success"
 			if contactRequest.RequestTarget == "demo" {

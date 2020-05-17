@@ -5,7 +5,7 @@ env_variables:
   SMTP_VERITY_CERT: true
   SMTP_CLIENT_USERNAME: "postmaster@example.com"
   SMTP_CLIENT_PASSWORD: "postmasterSecretPassWord"
-  ALLOWED_ORIGINS: "127.0.0.1,example.com"
   CONTACT_REPLY_EMAIL: "noreply@example.com"
-  CONTACT_REPLY_CC_EMAIL: "contact@example.com"
+  CONTACT_REPLY_BCC_EMAIL: "contact@example.com"
   DEMO_URL: "https://demo.example.com/"
+  ALLOWED_ORIGINS: "127.0.0.1,example.com"
