@@ -3,6 +3,7 @@ DOCKER_IMAGE_REPO=rchakode/hugo-mx-gateway
 ARCH=$$(uname -m)
 GOCMD=GO111MODULE=on go
 GOBUILD=$(GOCMD) build
+GOBUILD_FLAGS=-a -tags netgo -ldflags '-w -extldflags "-static"'
 GOCLEAN=$(GOCMD) clean
 GOTEST=$(GOCMD) test
 GOVENDOR=$(GOCMD) mod vendor
@@ -16,7 +17,7 @@ vendor:
 	$(GOVENDOR)
 	
 build:
-	$(GOBUILD) -o $(PACKAGE_NAME) -v
+	$(GOBUILD) $(GOBUILD_FLAGS) -o $(PACKAGE_NAME) -v
 
 build-ci:
 	docker run --rm -it \

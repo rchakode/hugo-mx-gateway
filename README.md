@@ -46,14 +46,16 @@ This screenshot show an example of a form successfully submitted and handled by 
 # Configuration variables
 According to your deployment approach (Google App Engine, Kubernetes or Docker), you must provide the following configuration parameters as environment variables:
 
-* `SMTP_SERVER_ADDR`: set the IP or the hostname of the SMTP server. Currently, it's required that the SMTP server being supporting TLS. 
+* `SMTP_SERVER_ADDR`: Set the address of the SMTP server in the form of `host:port`. It's required that the SMTP server being supporting TLS.
 * `SMTP_VERITY_CERT`: Tell if the `hugo-mx-gateway` App should validate the SMTP certificate against valid authorities. If you're using a self-signed certificate on the SMTP server, this value must be set to `false`.
 * `SMTP_CLIENT_USERNAME`: Set the username to connect to the SMTP server.
 * `SMTP_CLIENT_PASSWORD`: Set the password to connect to the SMTP server.
 * `CONTACT_REPLY_EMAIL`: Set an email address for the reply email. It's not necessary a valid email address, for example if don't want the user to reply you can use something like `noreply@example.com`.
-* `CONTACT_REPLY_BCC_EMAIL`: Set an email address for bcc copy of the email sent to the user. This is useful for tracking and follow up.
+* `CONTACT_REPLY_BCC_EMAIL`: Sets an email address for bcc copy of the email sent to the user. This is useful for tracking and follow up.
 * `DEMO_URL`: Specific for demo forms, it can be used to set the URL of the demo site that will be included to the user reply email (e.g. `https://demo.example.com/`). 
 * `ALLOWED_ORIGINS`: Set a list of comma-separated domains that the `hugo-mx-gateway` App shoudl trust. This is for security reason to filter requests. Only requests with an `Origin` header belonging to the defined origins will be accepted, through it's only required that the request has a valid `Referer` header. It's expected in the future to these request filtering and admission rules.
+* `TEMPLATE_DEMO_REQUEST_REPLY`: Specify the path of the email template to reply to demo requests. The default templare used in described in the file `templates/template_reply_demo_request.html`
+* `TEMPLATE_CONTACT_REQUEST_REPLY`: Specify the path of the email template to reply to contact requests. The default templare used in described in the file `templates/template_reply_contact_request.html`.
 
 # Deployment options
 
@@ -95,7 +97,7 @@ Either way, check the [values.yaml](./helm/values.yaml) file to set the [configu
 > **Security Context:**
 > `hugo-mx-gateway`'s pod is deployed with a unprivileged security context by default. However, if needed, it's possible to launch the pod in privileged mode by setting the Helm configuration value `securityContext.enabled` to `false`.
 
-In the next deployment commands, it's assumed that the target namespace `hugo-mx-gateway` do exist. If not create it first, or, alternatively, adapt the commands to use any other namespace of your choice.
+In the next deployment commands, it's assumed that the target namespace `hugo-mx-gateway` does exist. Otherwise create it first, or, alternatively, adapt the commands to use any other namespace of your choice.
 
 ### Installation using Helm 3 (i.e. without tiller)
 <a name="installation-using-helm-3-ie-without-tiller"></a>
@@ -104,11 +106,8 @@ Helm 3 does not longer require to have [`tiller`](https://v2.helm.sh/docs/instal
 
 As a consequence the below command shall work with a fresh installation of `hugo-mx-gateway` or a former version installed with Helm 3. There is a [known issue](https://github.com/helm/helm/issues/6850) when there is already a version **not** installed with Helm 3.
 
-```bash
-helm upgrade \
-  --namespace hugo-mx-gateway \
-  --install hugo-mx-gateway \
-  helm/hugo-mx-gateway/
+```
+helm upgrade --namespace hugo-mx-gateway --install hugo-mx-gateway helm/
 ```
 
 ### Installation using Kubectl
@@ -116,10 +115,7 @@ helm upgrade \
 This approach requires to have the Helm client (version 2 or 3) installed to generate a raw template for kubectl.
 
 ```
-$ helm template \
-  --namespace hugo-mx-gateway \
-  --name hugo-mx-gateway \
-  helm/hugo-mx-gateway/ | kubectl apply -f -
+$ helm template hugo-mx-gateway --namespace hugo-mx-gateway helm/ | kubectl apply -f -
 ```
 
 ## Deployment on Docker
@@ -129,7 +125,7 @@ $ helm template \
 $ docker run -d \
    --publish 8080:8080 \
    --name 'hugo-mx-gateway' \
-   -e SMTP_SERVER_ADDR="smtp.mailgun.org:587" \
+   -e SMTP_SERVER_ADDR="smtp.example.com:465" \
    -e SMTP_VERITY_CERT=true \
    -e SMTP_CLIENT_USERNAME="postmaster@example.com" \
    -e SMTP_CLIENT_PASSWORD="postmasterSecretPassWord" \

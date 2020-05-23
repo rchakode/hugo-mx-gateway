@@ -224,12 +224,19 @@ func SendMail(httpResp http.ResponseWriter, httpReq *http.Request) {
 		contactRequest.Subject,
 	)
 
-	err := error(nil)
+	replyTplFile := ""
 	if contactRequest.RequestTarget == "demo" {
-		err = sendMailReq.ParseTemplate(viper.GetString("TEMPLATE_DEMO_REQUEST_REPLY"), templateData)
+		replyTplFile = viper.GetString("TEMPLATE_DEMO_REQUEST_REPLY");
+		if replyTplFile == "" {
+			replyTplFile = "./templates/template_reply_demo_request.html"
+		}
 	} else {
-		err = sendMailReq.ParseTemplate(viper.GetString("TEMPLATE_CONTACT_REQUEST_REPLY"), templateData)
+		replyTplFile = viper.GetString("TEMPLATE_CONTACT_REQUEST_REPLY");
+		if replyTplFile == "" {
+			replyTplFile = "./templates/template_reply_contact_request.html"
+		}
 	}
+	err := sendMailReq.ParseTemplate(replyTplFile, templateData)
 
 	if err == nil {
 		err := sendMailReq.Execute()

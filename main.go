@@ -4,7 +4,7 @@ Copyright 2020 Rodrigue Chakode and contributors.
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
 You may obtain a copy of the License at
-    
+
     http://www.apache.org/licenses/LICENSE-2.0
 
 Unless required by applicable law or agreed to in writing, software
@@ -18,12 +18,12 @@ package main
 
 import (
 	"net/http"
-	"time"
 	"os"
+	"time"
 
-	"github.com/spf13/viper"
 	"github.com/gorilla/mux"
 	log "github.com/sirupsen/logrus"
+	"github.com/spf13/viper"
 )
 
 type Route struct {
@@ -36,28 +36,33 @@ type Route struct {
 type Routes []Route
 
 var routes = Routes{
-	Route  {
+	Route{
 		"SendMail",
 		"POST",
 		"/sendmail",
 		SendMail,
 	},
+	Route{
+		"Healthz",
+		"GET",
+		"/healthz",
+		Healthz,
+	},
 }
 
 func MuxLoggerHandler(inner http.Handler, name string) http.Handler {
-    return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-        start := time.Now()
-        inner.ServeHTTP(w, r)
-        log.Printf(
-            "%s %s %s %s",
-            r.Method,
-            r.RequestURI,
-            name,
-            time.Since(start),
-        )
-    })
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		start := time.Now()
+		inner.ServeHTTP(w, r)
+		log.Printf(
+			"%s %s %s %s",
+			r.Method,
+			r.RequestURI,
+			name,
+			time.Since(start),
+		)
+	})
 }
-
 
 func NewRouter() *mux.Router {
 	router := mux.NewRouter().StrictSlash(true)
@@ -99,5 +104,3 @@ func main() {
 
 	log.Fatal(http.ListenAndServe(":"+port, router))
 }
-
-

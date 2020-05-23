@@ -8,7 +8,7 @@ envs:
   ALLOWED_ORIGINS: "127.0.0.1,example.com"
   CONTACT_REPLY_EMAIL: "noreply@example.com"
   CONTACT_REPLY_CC_EMAIL: "contact@example.com"
-  DEMO_URL: "https://demo.example.com/"
+  DEMO_URL: "https://demo.example.com/"  
 
 image:
   repository: rchakode/hugo-mx-gateway
@@ -28,15 +28,15 @@ serviceAccount:
   name:
 
 podSecurityContext: {}
-  # fsGroup: 2000
+  # fsGroup: 4583
 
-securityContext: {}
-  # capabilities:
-  #   drop:
-  #   - ALL
-  # readOnlyRootFilesystem: true
-  # runAsNonRoot: true
-  # runAsUser: 1000
+securityContext:
+  capabilities:
+    drop:
+    - ALL
+  readOnlyRootFilesystem: true
+  runAsNonRoot: true
+  runAsUser: 4583
 
 service:
   type: ClusterIP
