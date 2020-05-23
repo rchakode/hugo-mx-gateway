@@ -1,5 +1,5 @@
 runtime: go112
-
+version: v0.1.0
 env_variables:
   TEMPLATE_DEMO_REQUEST_REPLY: templates/template_reply_demo_request.html
   TEMPLATE_CONTACT_REQUEST_REPLY: templates/template_reply_contact_request.html
