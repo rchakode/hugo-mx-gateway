@@ -5,14 +5,22 @@
 </head>
 
 <body>
-<legend>Request Summary</legend>
+Dear Mr/Mrs {{.Name}},
+Thank you to have contacted our customer service.
+
+<legend>Summary of your request</legend>
 <ul>
-        <li>Name: {{.Name}}</li>
-        <li>Email: {{.Email}}</li>
-        <li>Organization: {{.Organization}}</li>
-        <li>Subject: {{.Subject}}</li>
-        <li>Message: {{.Message}}</li>
+  <li>Name: {{.Name}}</li>
+  <li>Email: {{.Email}}</li>
+  <li>Organization: {{.Organization}}</li>
+  <li>Subject: {{.Subject}}</li>
+  <li>Message: {{.Message}}</li>
 </ul>
+
+We'll get back to you to you within the next 48 hours.
+Kind regards,
+--
+The Customer Service Team
 
     
 </body>
