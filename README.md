@@ -1,4 +1,4 @@
-![](https://img.shields.io/github/license/rchakode/`hugo-mx-gateway`.svg?label=License)
+![](https://img.shields.io/github/license/rchakode/hugo-mx-gateway.svg?label=License)
 [![Actions Status](https://github.com/rchakode/hugo-mx-gateway/workflows/Build/badge.svg)](https://github.com/rchakode/`hugo-mx-gateway`/actions)
 ![](https://img.shields.io/docker/pulls/rchakode/hugo-mx-gateway.svg?label=Docker%20Pulls)
 
