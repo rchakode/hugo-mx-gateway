@@ -3,4 +3,4 @@ name: hugo-mx-gateway
 description: Helm chart for hugo-mx-gateway
 type: application
 version: 1.0.0
-appVersion: 1590272682
+appVersion: 0.1.0
