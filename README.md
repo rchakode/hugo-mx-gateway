@@ -15,8 +15,8 @@ In a nutshell, `hugo-mx-gateway` provides a RESTful POST endpoint for static con
 - [Why hugo-mx-gateway](#why-hugo-mx-gateway)
   - [How does it work](#how-does-it-work)
   - [Prerequisites](#prerequisites)
-- [Deployment](#deployment)
-  - [Deployment on Google Appp Engine](#deployment-on-google-appp-engine)
+- [Deployment](#deployment
+  - [Deployment on Google App Engine](#deployment-on-google-app-engine)
   - [Deployment on a Kubernetes cluster](#deployment-on-a-kubernetes-cluster)
   - [Deployment on Docker](#deployment-on-docker)
 - [Use the built-in form for Hugo](#use-the-built-in-form-for-hugo)
@@ -55,7 +55,7 @@ These are basic requirements in the today's Internet world.
 # Deployment
 Consider one of the following resources according to the selected installation platform.
 
-## Deployment on Google Appp Engine
+## Deployment on Google App Engine
 This requires to have an active GCP account and [Google Cloud SDK](https://cloud.google.com/sdk) (gcloud) installed on your work station.
 
 * Create/select a GCP project to deploy `hugo-mx-gateway`. 
