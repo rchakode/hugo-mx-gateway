@@ -20,7 +20,7 @@ build:
 	$(GOBUILD) $(GOBUILD_FLAGS) -o $(PACKAGE_NAME) -v
 
 build-ci:
-	docker run --rm -it \
+	docker run --rm \
 	-e GO111MODULE=on \
 	-e CGO_ENABLED=0 \
 	-e GOOS=linux \
