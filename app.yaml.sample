@@ -1,5 +1,13 @@
 runtime: go112
-version: v0.1.0
+
+# Uncomment the 'service' parameter if you're deploying the hugo-mx-gateway
+# under an existing App.
+#
+#service: hugo-mx-gateway
+
+
+# Set the below configuration environment variables with appropriate values
+#
 env_variables:
   TEMPLATE_DEMO_REQUEST_REPLY: templates/template_reply_demo_request.html
   TEMPLATE_CONTACT_REQUEST_REPLY: templates/template_reply_contact_request.html
