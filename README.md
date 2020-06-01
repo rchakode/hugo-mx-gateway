@@ -15,7 +15,7 @@ In a nutshell, `hugo-mx-gateway` provides a RESTful POST endpoint for static con
 - [Why hugo-mx-gateway](#why-hugo-mx-gateway)
   - [How does it work](#how-does-it-work)
   - [Prerequisites](#prerequisites)
-- [Deployment](#deployment
+- [Deployment](#deployment)
   - [Deployment on Google App Engine](#deployment-on-google-app-engine)
   - [Deployment on a Kubernetes cluster](#deployment-on-a-kubernetes-cluster)
   - [Deployment on Docker](#deployment-on-docker)
