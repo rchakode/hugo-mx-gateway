@@ -25,6 +25,7 @@ import (
 	"net"
 	"net/http"
 	"net/smtp"
+	"net/url"
 	"strings"
 
 	log "github.com/sirupsen/logrus"
@@ -258,14 +259,20 @@ func SendMail(httpResp http.ResponseWriter, httpReq *http.Request) {
 		contactResponse.Message = "Invalid request, please review your input and try again."
 	}
 
-	refererURL := strings.Split(httpReq.Header["Referer"][0], "?")[0]
+	refererURL, err := url.Parse(httpReq.Header.Get("Referer"))
+	if err != nil {
+		log.Infof("error: %s", err.Error())
+		refererURL = &url.URL{} // continue with default (empty) url
+	}
+
+	q := refererURL.Query()
+	q.Set("status", contactResponse.Status)
+	q.Set("message", contactResponse.Message)
+	refererURL.RawQuery = q.Encode()
+
 	respRawData, _ := json.Marshal(contactResponse)
 
-	httpResp.Header().Set("Location",
-		fmt.Sprintf("%s?status=%s&message=%s",
-			refererURL,
-			contactResponse.Status,
-			contactResponse.Message))
+	httpResp.Header().Set("Location", refererURL.String())
 	httpResp.WriteHeader(http.StatusSeeOther)
 	httpResp.Header().Set("Content-Type", "application/json; charset=UTF-8")
 	httpResp.Write(respRawData)
