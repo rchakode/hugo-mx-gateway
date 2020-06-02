@@ -40,7 +40,9 @@ var routes = Routes{
 		"SendMail",
 		"POST",
 		"/sendmail",
-		MuxSecAllowedDomainsHandler(http.HandlerFunc(SendMail)),
+		MuxSecAllowedDomainsHandler(
+			MuxSecReCaptchaHandler(
+				http.HandlerFunc(SendMail))),
 	},
 	Route{
 		"Healthz",
