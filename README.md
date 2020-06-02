@@ -166,6 +166,7 @@ Regardless of the deployment platform (Google App Engine, Kubernetes, Docker), t
 * `CONTACT_REPLY_BCC_EMAIL`: Sets an email address for bcc copy of the email sent to the user. This is useful for tracking and follow up.
 * `DEMO_URL`: Specific for demo forms, it can be used to set the URL of the demo site that will be included to the user reply email (e.g. `https://demo.example.com/`). 
 * `ALLOWED_ORIGINS`: Set a list of comma-separated domains that the `hugo-mx-gateway` App shoudl trust. This is for security reason to filter requests. Only requests with an `Origin` header belonging to the defined origins will be accepted, through it's only required that the request has a valid `Referer` header. It's expected in the future to these request filtering and admission rules.
+* `RECAPTCHA_PRIVATE_KEY` (optional): The [reCaptcha](https://www.google.com/recaptcha/intro/v3.html) private key.
 * `TEMPLATE_DEMO_REQUEST_REPLY` (optional): Specify the path of the template to reply a demo request. The default templare is `templates/template_reply_demo_request.html`
 * `TEMPLATE_CONTACT_REQUEST_REPLY` (optional): Specify the path of the template to reply a contact request. The default templare is `templates/template_reply_contact_request.html`.
 
