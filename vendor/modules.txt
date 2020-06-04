@@ -1,3 +1,5 @@
+# github.com/dpapathanasiou/go-recaptcha v0.0.0-20190121160230-be5090b17804
+github.com/dpapathanasiou/go-recaptcha
 # github.com/fsnotify/fsnotify v1.4.7
 github.com/fsnotify/fsnotify
 # github.com/gorilla/mux v1.7.4

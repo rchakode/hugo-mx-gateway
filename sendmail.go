@@ -4,7 +4,7 @@ Copyright 2020 Rodrigue Chakode and contributors.
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
 You may obtain a copy of the License at
-    
+
     http://www.apache.org/licenses/LICENSE-2.0
 
 Unless required by applicable law or agreed to in writing, software
@@ -28,6 +28,7 @@ import (
 	"net/url"
 	"strings"
 
+	"github.com/dpapathanasiou/go-recaptcha"
 	log "github.com/sirupsen/logrus"
 	"github.com/spf13/viper"
 )
@@ -149,32 +150,71 @@ func (m *SendMailRequest) ParseTemplate(templateFileName string, data interface{
 	return nil
 }
 
+// MuxSecAllowedDomainsHandler is a security middleware which controls allowed domains.
+func MuxSecAllowedDomainsHandler(next http.Handler) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		allowedDomains := strings.Split(viper.GetString("ALLOWED_ORIGINS"), ",")
+		allowedOrigins := make(map[string]bool)
+
+		for _, domain := range allowedDomains {
+			domainTrimmed := strings.TrimSpace(domain)
+			allowedOrigins[fmt.Sprintf("http://%s", domainTrimmed)] = true
+			allowedOrigins[fmt.Sprintf("https://%s", domainTrimmed)] = true
+			allowedOrigins[fmt.Sprintf("http://www.%s", domainTrimmed)] = true
+			allowedOrigins[fmt.Sprintf("https://www.%s", domainTrimmed)] = true
+		}
+
+		if len(r.Header["Origin"]) == 0 || len(r.Header["Referer"]) == 0 {
+			rawHeader, _ := json.Marshal(r.Header)
+			log.Infoln("request with unexpected headers", string(rawHeader))
+			w.WriteHeader(http.StatusForbidden)
+			return
+		}
+
+		reqOrigin := r.Header["Origin"][0]
+		if _, domainFound := allowedOrigins[reqOrigin]; !domainFound {
+			log.Errorln("not allowed origin", reqOrigin)
+			w.WriteHeader(http.StatusForbidden)
+			return
+		}
+
+		next.ServeHTTP(w, r)
+	})
+}
+
+// MuxSecReCaptchaHandler is a security middleware which verifies the challenge code from
+// the reCaptcha human verification system (provided by Google).
+func MuxSecReCaptchaHandler(next http.Handler) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		recaptchaResponse, found := r.Form["g-recaptcha-response"]
+
+		if found {
+			remoteIp, _, _ := net.SplitHostPort(r.RemoteAddr)
+			recaptchaPrivateKey := viper.GetString("RECAPTCHA_PRIVATE_KEY")
+
+			recaptcha.Init(recaptchaPrivateKey)
+
+			result, err := recaptcha.Confirm(remoteIp, recaptchaResponse[0])
+			if err != nil {
+				log.WithFields(log.Fields{
+					"error": err,
+				}).Errorln("reCaptcha server error")
+				w.WriteHeader(http.StatusForbidden)
+				return
+			}
+
+			if !result {
+				w.WriteHeader(http.StatusForbidden)
+				return
+			}
+		}
+
+		next.ServeHTTP(w, r)
+	})
+}
+
 // SendMail handles HTTP request to send email
 func SendMail(httpResp http.ResponseWriter, httpReq *http.Request) {
-
-	allowedDomains := strings.Split(viper.GetString("ALLOWED_ORIGINS"), ",")
-	allowedOrigins := make(map[string]bool)
-	for _, domain := range allowedDomains {
-		domainTrimmed := strings.TrimSpace(domain)
-		allowedOrigins[fmt.Sprintf("http://%s", domainTrimmed)] = true
-		allowedOrigins[fmt.Sprintf("https://%s", domainTrimmed)] = true
-		allowedOrigins[fmt.Sprintf("http://www.%s", domainTrimmed)] = true
-		allowedOrigins[fmt.Sprintf("https://www.%s", domainTrimmed)] = true
-	}
-	if len(httpReq.Header["Origin"]) == 0 || len(httpReq.Header["Referer"]) == 0 {
-		rawHeader, _ := json.Marshal(httpReq.Header)
-		log.Infoln("request with unexpected headers", string(rawHeader))
-		httpResp.WriteHeader(http.StatusForbidden)
-		return
-	}
-
-	reqOrigin := httpReq.Header["Origin"][0]
-	if _, domainFound := allowedOrigins[reqOrigin]; !domainFound {
-		log.Errorln("not allowed origin", reqOrigin)
-		httpResp.WriteHeader(http.StatusForbidden)
-		return
-	}
-
 	httpReq.ParseForm()
 
 	contactRequest := ContactRequest{
@@ -227,12 +267,12 @@ func SendMail(httpResp http.ResponseWriter, httpReq *http.Request) {
 
 	replyTplFile := ""
 	if contactRequest.RequestTarget == "demo" {
-		replyTplFile = viper.GetString("TEMPLATE_DEMO_REQUEST_REPLY");
+		replyTplFile = viper.GetString("TEMPLATE_DEMO_REQUEST_REPLY")
 		if replyTplFile == "" {
 			replyTplFile = "./templates/template_reply_demo_request.html"
 		}
 	} else {
-		replyTplFile = viper.GetString("TEMPLATE_CONTACT_REQUEST_REPLY");
+		replyTplFile = viper.GetString("TEMPLATE_CONTACT_REQUEST_REPLY")
 		if replyTplFile == "" {
 			replyTplFile = "./templates/template_reply_contact_request.html"
 		}
