@@ -1,6 +1,5 @@
 ![](https://img.shields.io/github/license/rchakode/hugo-mx-gateway.svg?label=License)
-[![Actions Status](https://github.com/rchakode/hugo-mx-gateway/workflows/Build/badge.svg)](https://github.com/rchakode/`hugo-mx-gateway`/actions)
-![](https://img.shields.io/docker/pulls/rchakode/hugo-mx-gateway.svg?label=Docker%20Pulls)
+[![Actions Status](https://github.com/rchakode/hugo-mx-gateway/workflows/Build/badge.svg)](https://github.com/rchakode/hugo-mx-gateway/actions)
 
 # Overview
 In a nutshell, `hugo-mx-gateway` provides a RESTful POST endpoint for static contact/demo request pages. It's a simple, yet a powerful tool built for this only-designated purpose.
@@ -38,7 +37,7 @@ This project, namely `hugo-mx-gateway`, is meant to provide a RESTful API that a
 `hugo-mx-gateway` is built upon a simple request handling workflow:
 
 * Create an HTML form with a POST action pointing towards the `hugo-mx-gateway` service. This service is a RESTful POST endpoint backed by an application easily deployable on [Google App Engine](https://cloud.google.com/appengine), Kubernetes, or Docker.
-* For each user request, `hugo-mx-gateway` automatically retrieves information submitted by the user (email, subject, message details...), then **generates and sends** a **templated email** to the user-provided email address, while **bcc**ing a copy of that email to an address that you can define for internal tracking and follow up.
+* For each user request, `hugo-mx-gateway` automatically retrieves information submitted by the user (email, subject, message details...), then **generates and sends** a **templated email** (based on [Go Template](https://golang.org/pkg/text/template/)) to the user-provided email address, while **bcc**ing a copy of that email to an address that you can define for internal tracking and follow up.
 * Once a request is processed (upon success or failure), `hugo-mx-gateway` handles the reply back towards the calling static page by redirecting the browser to the origin page with additional URL parameters describing the completion status of the processing (e.g. `/contact.html?status=success&message=request%20submitted`). The parameters can then be easily retrieved and shown to the user, e.g. with a few lines of Javascript within the static page.
 * The project is shipped with a sample HTML form intending to cover a basic use case of contact and demo requests. That said, this is a open source software, so you're free to adapt it for your specific use cases.
 
@@ -71,7 +70,7 @@ This requires to have an active GCP account and [Google Cloud SDK](https://cloud
   ```
   make deploy-gcp
   ```
-* Check that `hugo-mx-gateway` is up and functioning
+* Check that `hugo-mx-gateway` is up and working
   ```
   curl https://PROJECT-ID.REGION.r.appspot.com/healthz 
   ```
@@ -110,7 +109,7 @@ An instance of `hugo-mx-gateway` can be quickly started on any machine running D
   ```
   $ docker run -d \
     --publish 8080:8080 \
-    --name '`hugo-mx-gateway`' \
+    --name 'hugo-mx-gateway' \
     -e SMTP_SERVER_ADDR="smtp.example.com:465" \
     -e SMTP_VERITY_CERT=true \
     -e SMTP_CLIENT_USERNAME="postmaster@example.com" \
@@ -119,7 +118,7 @@ An instance of `hugo-mx-gateway` can be quickly started on any machine running D
     -e CONTACT_REPLY_BCC_EMAIL="contact@example.com" \
     -e DEMO_URL="https://demo.example.com/" \
     -e ALLOWED_ORIGINS="127.0.0.1,example.com" \
-    rchakode/`hugo-mx-gateway`
+    rchakode/hugo-mx-gateway
   ```
 
 * Check that the container is up and functionning.
@@ -139,8 +138,8 @@ The integration works as follows:
  * Copy the HTML form content in your target **Hugo HTML template**. 
  * Modify the `<form>` tag to make the **action** point to the URL of the sendmail backend deployed previously.
    * On Google App Engine, the endpoint shall be: https://PROJECT-ID.REGION.r.appspot.com/sendmail. Replace `PROJECT-ID` and `REGION`, repectively, with the GCP's project ID and the deployment region.
-   * On Kubernetes, the in-cluster endpoint shall be: http://`hugo-mx-gateway`.`hugo-mx-gateway`.svc.cluster.local/sendmail
-   * On Docker, the endpoint shall be: http://DOCKER-HOST:8080/sendmail. Replace `DOCKER-HOST` with the IP adress or the hostname of the Docker machine.
+   * On Kubernetes, the in-cluster endpoint shall be: http://hugo-mx-gateway.hugo-mx-gateway.svc.cluster.local/sendmail
+   * On Docker, the endpoint shall be: http://DOCKER-HOST:8080/sendmail. Replace `DOCKER-HOST` with the IP address or the hostname of the Docker machine.
  * Edit the **Hugo Markdown content** of the target contact/demo page to ensure that the **tags** parameter holds a appropriate value (i.e. `contact` for a contact form, or `demo` for a demo request form).
 
 Here is an example of header for a Hugo Markdown page. The `tags` parameter holds a tag named `contact`) meaning that the page will be rendered as a contact request form.
@@ -167,8 +166,8 @@ Regardless of the deployment platform (Google App Engine, Kubernetes, Docker), t
 * `DEMO_URL`: Specific for demo forms, it can be used to set the URL of the demo site that will be included to the user reply email (e.g. `https://demo.example.com/`). 
 * `ALLOWED_ORIGINS`: Set a list of comma-separated domains that the `hugo-mx-gateway` App shoudl trust. This is for security reason to filter requests. Only requests with an `Origin` header belonging to the defined origins will be accepted, through it's only required that the request has a valid `Referer` header. It's expected in the future to these request filtering and admission rules.
 * `RECAPTCHA_PRIVATE_KEY` (optional): The [reCaptcha](https://www.google.com/recaptcha/intro/v3.html) private key.
-* `TEMPLATE_DEMO_REQUEST_REPLY` (optional): Specify the path of the template to reply a demo request. The default templare is `templates/template_reply_demo_request.html`
-* `TEMPLATE_CONTACT_REQUEST_REPLY` (optional): Specify the path of the template to reply a contact request. The default templare is `templates/template_reply_contact_request.html`.
+* `TEMPLATE_DEMO_REQUEST_REPLY` (optional): Specify the path of the template to reply a demo request. The default templare is `templates/template_reply_demo_request.html`. The template is based on [Go Template](https://golang.org/pkg/text/template/). 
+* `TEMPLATE_CONTACT_REQUEST_REPLY` (optional): Specify the path of the template to reply a contact request. The default templare is `templates/template_reply_contact_request.html`. The template is based on [Go Template](https://golang.org/pkg/text/template/). 
 
 # License & Copyrights
 This tool (code and documentation) is licensed under the terms of Apache 2.0 License. Read the [LICENSE](LICENSE) file for more details on the license terms.
@@ -178,7 +177,7 @@ The tool may inlcude third-party libraries provided with their owns licenses and
 # Support & Contributions
 We encourage feedback and do make our best to handle any troubles you may encounter when using this tool.
 
-Here is the link to submit issues: https://github.com/rchakode/`hugo-mx-gateway`/issues.
+Here is the link to submit issues: https://github.com/rchakode/hugo-mx-gateway/issues.
 
 New ideas are welcomed, please open an issue to submit your idea if you have any one.
 

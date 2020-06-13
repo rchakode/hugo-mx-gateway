@@ -28,4 +28,4 @@ hugo-mx-gateway
 helm
 screenshots
 samples
-bin 
+./bin
