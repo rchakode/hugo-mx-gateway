@@ -91,6 +91,7 @@ func (m *SendMailRequest) Execute() error {
 	if err != nil {
 		return fmt.Errorf("failed initiating smtp connection (%s)", err)
 	}
+	defer conn.Close()
 
 	smtpClient, err := smtp.NewClient(conn, smtpServerHost)
 	if err != nil {
