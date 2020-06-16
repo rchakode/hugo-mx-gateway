@@ -120,15 +120,11 @@ func (m *SendMailRequest) Execute() error {
 	if err != nil {
 		return fmt.Errorf("failed issuing DATA command (%s)", err)
 	}
+	defer smtpWriter.Close()
 
 	_, err = smtpWriter.Write([]byte(msg))
 	if err != nil {
 		return fmt.Errorf("failed sending mail content (%s)", err)
-	}
-
-	err = smtpWriter.Close()
-	if err != nil {
-		return fmt.Errorf("failed close smtp client (%s)", err)
 	}
 
 	return nil
