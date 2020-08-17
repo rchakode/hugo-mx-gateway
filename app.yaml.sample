@@ -19,3 +19,4 @@ env_variables:
   CONTACT_REPLY_BCC_EMAIL: "contact@example.com"
   DEMO_URL: "https://demo.example.com/"
   ALLOWED_ORIGINS: "127.0.0.1,example.com"
+  RECAPTCHA_PRIVATE_KEY: "value-of-recaptcha-private-key"
