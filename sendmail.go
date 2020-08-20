@@ -253,29 +253,30 @@ func SendMail(httpResp http.ResponseWriter, httpReq *http.Request) {
 		Message:      contactRequest.Message,
 		DemoURL:      viper.GetString("DEMO_URL"),
 	}
-	contactResponse := ContactResponse{}
-	contactEmail := viper.GetString("CONTACT_REPLY_EMAIL")
-
-	sendMailReq := NewSendMailRequest(
-		contactEmail,
-		recipients,
-		contactRequest.Subject,
-	)
 
 	replyTplFile := ""
+	contactEmail := viper.GetString("CONTACT_REPLY_EMAIL")
 	if contactRequest.RequestTarget == "demo" {
 		replyTplFile = viper.GetString("TEMPLATE_DEMO_REQUEST_REPLY")
 		if replyTplFile == "" {
 			replyTplFile = "./templates/template_reply_demo_request.html"
 		}
 	} else {
+		contactEmail = contactRequest.Email
 		replyTplFile = viper.GetString("TEMPLATE_CONTACT_REQUEST_REPLY")
 		if replyTplFile == "" {
 			replyTplFile = "./templates/template_reply_contact_request.html"
 		}
 	}
+
+	sendMailReq := NewSendMailRequest(
+		contactEmail,
+		recipients,
+		contactRequest.Subject,
+	)
 	err := sendMailReq.ParseTemplate(replyTplFile, templateData)
 
+	contactResponse := ContactResponse{}
 	if err == nil {
 		err := sendMailReq.Execute()
 		if err != nil {
