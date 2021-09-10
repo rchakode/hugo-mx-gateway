@@ -10,7 +10,7 @@ jobs:
     - uses: actions/checkout@v1
     - name: Build and push Docker image
       env:
-        IMAGE_REPO: rchakode/kube-mx-gateway
+        IMAGE_REPO: rchakode/hugo-mx-gateway
         REGISTRY_PASSWORD: ${{ secrets.REGISTRY_PASSWORD }}
         REGISTRY_USERNAME: ${{ secrets.REGISTRY_USERNAME }}
       run: |
