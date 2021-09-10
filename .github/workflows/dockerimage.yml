@@ -20,4 +20,5 @@ jobs:
         docker build . --file Dockerfile --tag ${IMAGE_REPO}:${IMAGE_TAG}
         docker tag ${IMAGE_REPO}:${IMAGE_TAG} ${IMAGE_REPO}:latest
         echo "$REGISTRY_PASSWORD" | docker login -u $REGISTRY_USERNAME --password-stdin
+        docker push ${IMAGE_REPO}:${IMAGE_TAG
         docker push ${IMAGE_REPO}
