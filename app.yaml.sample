@@ -3,7 +3,7 @@ runtime: go112
 # Uncomment the 'service' parameter if you're deploying the hugo-mx-gateway
 # under an existing App.
 #
-#service: hugo-mx-gateway
+service: hugo-mx-gateway
 
 
 # Set the below configuration environment variables with appropriate values
