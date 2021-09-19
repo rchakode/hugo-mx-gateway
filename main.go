@@ -20,9 +20,8 @@ import (
 	"net/http"
 	"os"
 	"time"
+	"log"
 
-	"github.com/gorilla/mux"
-	log "github.com/sirupsen/logrus"
 	"github.com/spf13/viper"
 )
 
@@ -47,7 +46,7 @@ var routes = Routes{
 	Route{
 		"Healthz",
 		"GET",
-		"/healthz",
+		"/",
 		http.HandlerFunc(Healthz),
 	},
 }
@@ -66,20 +65,6 @@ func MuxLoggerHandler(inner http.Handler, name string) http.Handler {
 	})
 }
 
-func NewRouter() *mux.Router {
-	router := mux.NewRouter().StrictSlash(true)
-	for _, route := range routes {
-		handler := MuxLoggerHandler(route.Handler, route.Name)
-
-		router.
-			Methods(route.Method).
-			Path(route.Pattern).
-			Name(route.Name).
-			Handler(handler)
-	}
-	return router
-}
-
 func main() {
 	viper.AutomaticEnv()
 	viper.SetDefault("SERVER_TLS_CERT", "/etc/cert/cert.pem")
@@ -95,12 +80,15 @@ func main() {
 	port := os.Getenv("PORT")
 	if port == "" {
 		port = "8080"
-		log.Infof("Defaulting to port %s", port)
+		log.Printf("Defaulting to port %s", port)
 	}
 
-	router := NewRouter()
+	for _, route := range routes {
+		handler := MuxLoggerHandler(route.Handler, route.Name)
+		http.Handle(route.Pattern, handler)
+	}
 
-	log.Infof("Listening on port %s", port)
+	log.Printf("Listening on port %s", port)
 
-	log.Fatal(http.ListenAndServe(":"+port, router))
+	log.Fatal(http.ListenAndServe(":"+port, nil))
 }

@@ -27,9 +27,9 @@ import (
 	"net/smtp"
 	"net/url"
 	"strings"
+	"log"
 
 	"github.com/dpapathanasiou/go-recaptcha"
-	log "github.com/sirupsen/logrus"
 	"github.com/spf13/viper"
 )
 
@@ -89,13 +89,13 @@ func (m *SendMailRequest) Execute() error {
 	// On port 465 ssl connection is required from the very beginning (no starttls)
 	conn, err := tls.Dial("tcp", smtpServerAddr, tlsconfig)
 	if err != nil {
-		return fmt.Errorf("failed initiating smtp connection (%s)", err)
+		return fmt.Errorf("failed initiating smtp connection to host %s (%s)", smtpServerAddr, err)
 	}
 	defer conn.Close()
 
 	smtpClient, err := smtp.NewClient(conn, smtpServerHost)
 	if err != nil {
-		return fmt.Errorf("failed creating the smtp client (%s)", err)
+		return fmt.Errorf("failed creating smtp client to host %s (%s)", smtpServerHost, err)
 	}
 	defer smtpClient.Quit()
 
@@ -163,14 +163,14 @@ func MuxSecAllowedDomainsHandler(next http.Handler) http.Handler {
 
 		if len(r.Header["Origin"]) == 0 || len(r.Header["Referer"]) == 0 {
 			rawHeader, _ := json.Marshal(r.Header)
-			log.Infoln("request with unexpected headers", string(rawHeader))
+			log.Println("request with unexpected headers", string(rawHeader))
 			w.WriteHeader(http.StatusForbidden)
 			return
 		}
 
 		reqOrigin := r.Header["Origin"][0]
 		if _, domainFound := allowedOrigins[reqOrigin]; !domainFound {
-			log.Errorln("not allowed origin", reqOrigin)
+			log.Println("not allowed origin", reqOrigin)
 			w.WriteHeader(http.StatusForbidden)
 			return
 		}
@@ -193,9 +193,7 @@ func MuxSecReCaptchaHandler(next http.Handler) http.Handler {
 
 			result, err := recaptcha.Confirm(remoteIp, recaptchaResponse[0])
 			if err != nil {
-				log.WithFields(log.Fields{
-					"error": err,
-				}).Errorln("reCaptcha server error")
+				log.Println("reCaptcha server error:", err.Error())
 				w.WriteHeader(http.StatusForbidden)
 				return
 			}
@@ -230,13 +228,14 @@ func SendMail(httpResp http.ResponseWriter, httpReq *http.Request) {
 	case "contact":
 		recipients = []string{viper.GetString("CONTACT_REPLY_BCC_EMAIL")}
 	default:
-		log.Infoln("not allowed request type:", contactRequest.RequestTarget)
+		log.Println("not allowed request type:", contactRequest.RequestTarget)
 		httpResp.WriteHeader(http.StatusForbidden)
+		httpResp.Write([]byte(`{"status": "error", "message": "unauthorized request"}`))
 		return
 	}
 
 	userData, _ := json.Marshal(contactRequest)
-	log.Infoln("New Request:", string(userData))
+	log.Println("New Request:", string(userData))
 
 	templateData := struct {
 		Name         string
@@ -280,7 +279,7 @@ func SendMail(httpResp http.ResponseWriter, httpReq *http.Request) {
 	if err == nil {
 		err := sendMailReq.Execute()
 		if err != nil {
-			log.Infof("error: %s", err.Error())
+			log.Println(err.Error())
 			contactResponse.Status = "error"
 			contactResponse.Message = fmt.Sprintf("An internal error occurred, please try later or send us an email at %s.", viper.GetString("CONTACT_REPLY_BCC_EMAIL"))
 		} else {
@@ -292,14 +291,14 @@ func SendMail(httpResp http.ResponseWriter, httpReq *http.Request) {
 			}
 		}
 	} else {
-		log.Infof("error: %s", err.Error())
+		log.Println(err.Error())
 		contactResponse.Status = "error"
 		contactResponse.Message = "Invalid request, please review your input and try again."
 	}
 
 	refererURL, err := url.Parse(httpReq.Header.Get("Referer"))
 	if err != nil {
-		log.Infof("error: %s", err.Error())
+		log.Println(err.Error())
 		refererURL = &url.URL{} // continue with default (empty) url
 	}
 
