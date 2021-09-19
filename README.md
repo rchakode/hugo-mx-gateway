@@ -1,29 +1,34 @@
 ![](https://img.shields.io/github/license/rchakode/hugo-mx-gateway.svg?label=License)
 [![Actions Status](https://github.com/rchakode/hugo-mx-gateway/workflows/Build/badge.svg)](https://github.com/rchakode/hugo-mx-gateway/actions)
 
-# Overview
-In a nutshell, `hugo-mx-gateway` provides a RESTful POST endpoint for static contact/demo request pages. It's a simple, yet a powerful tool built for this only-designated purpose.
 
-**This project is derivated from a development already in production. 
-The documentation may still contain misspellings or typos.
-Contributions in any form (code/docs/ideas...) are welcomed.** 
+<details>
+<summary>
+Table of Contents
+</summary>
 
-![](hugo-mx-gateway-architecture-overview.png)
-
-# Table of contents
 - [Overview](#overview)
-- [Table of contents](#table-of-contents)
 - [Why hugo-mx-gateway](#why-hugo-mx-gateway)
-  - [How does it work](#how-does-it-work)
-  - [Prerequisites](#prerequisites)
+    - [How does it work](#how-does-it-work)
+    - [Prerequisites](#prerequisites)
 - [Deployment](#deployment)
-  - [Deployment on Google App Engine](#deployment-on-google-app-engine)
-  - [Deployment on a Kubernetes cluster](#deployment-on-a-kubernetes-cluster)
-  - [Deployment on Docker](#deployment-on-docker)
+    - [Deployment on Google App Engine](#deployment-on-google-app-engine)
+    - [Deployment on a Kubernetes cluster](#deployment-on-a-kubernetes-cluster)
+    - [Deployment on Docker](#deployment-on-docker)
 - [Use the built-in form for Hugo](#use-the-built-in-form-for-hugo)
 - [Configuration variables](#configuration-variables)
 - [License & Copyrights](#license--copyrights)
 - [Support & Contributions](#support--contributions)
+
+</details>
+
+# Overview
+In a nutshell, `hugo-mx-gateway` provides a RESTful POST endpoint for static contact/demo request pages. It's a simple, yet a powerful tool built for this only-designated purpose.
+
+**While this project is already deployed in production for several websites, the documentation may still contain misspellings or typos.
+Contributions in any form (code/docs/ideas...) are welcomed.** 
+
+![](hugo-mx-gateway-architecture-overview.png)
 
 
 # Why hugo-mx-gateway
@@ -74,7 +79,8 @@ This requires to have an active GCP account and [Google Cloud SDK](https://cloud
   ```
 * Check that `hugo-mx-gateway` is up and working
   ```
-  curl https://PROJECT-ID.REGION.r.appspot.com/healthz 
+  curl https://PROJECT-ID.REGION.r.appspot.com/ 
+  {"status": "ok"}
   ```
   Replace `PROJECT-ID` with the GCP project ID, and `REGION` with the deployment region.
 
@@ -98,7 +104,8 @@ Proceed with the deployment as follows:
 * Check that the application is up and running.
   ```
   kubectl -n hugo-mx-gateway port-forward service/hugo-mx-gateway 8080:80
-  curl https://127.0.0.1:8080/healthz 
+  curl https://127.0.0.1:8080/
+  {"status": "ok"}
   ```
 
 ## Deployment on Docker
@@ -126,13 +133,14 @@ An instance of `hugo-mx-gateway` can be quickly started on any machine running D
 * Check that the container is up and functionning.
 
   ```
-  curl https://127.0.0.1:8080/healthz 
+  curl https://127.0.0.1:8080/ 
+  {"status": "ok"}
   ```
 
 # Use the built-in form for Hugo
 The file `./samples/hugo-partial-contact-form.html` contains a sample HTML form for Hugo. It can be used for both contact and demo requests.
 
-Open the file in a your favorite editor and review it.
+Open the file in your favorite editor and review it.
 
 Notice that the form is configured to be rendered specifically according to a Hugo parameter named **tags**, which is actually a **list of tags**. If the parameter holds a tag named `contact` then, the form will be rendered as a contact form. Otherwise, it'll be rendered as a demo form.
 
