@@ -133,7 +133,7 @@ An instance of `hugo-mx-gateway` can be quickly started on any machine running D
 * Check that the container is up and functionning.
 
   ```
-  curl https://127.0.0.1:8080/ 
+  curl http://127.0.0.1:8080/ 
   {"status": "ok"}
   ```
 
