@@ -104,7 +104,7 @@ Proceed with the deployment as follows:
 * Check that the application is up and running.
   ```
   kubectl -n hugo-mx-gateway port-forward service/hugo-mx-gateway 8080:80
-  curl https://127.0.0.1:8080/
+  curl http://127.0.0.1:8080/
   {"status": "ok"}
   ```
 
