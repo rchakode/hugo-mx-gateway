@@ -47,6 +47,7 @@ type ContactRequest struct {
 	Subject       string `json:"subject,omitempty"`
 	Message       string `json:"message,omitempty"`
 	RequestTarget string `json:"requestType,omitempty"`
+	OriginURI     string `json:"originURI,omitempty"`
 }
 
 type ContactResponse struct {
@@ -109,7 +110,7 @@ func (m *SendMailRequest) Execute() error {
 		return fmt.Errorf("failed issuing MAIL command (%s)", err)
 	}
 
-	// Set recipents
+	// Set recipients
 	for _, recipient := range m.to {
 		err = smtpClient.Rcpt(recipient)
 		if err != nil {
@@ -219,6 +220,7 @@ func SendMail(httpResp http.ResponseWriter, httpReq *http.Request) {
 		Subject:       httpReq.FormValue("subject"),
 		Message:       httpReq.FormValue("message"),
 		RequestTarget: httpReq.FormValue("target"),
+		OriginURI:     httpReq.FormValue("requestOrigin"),
 	}
 
 	var recipients []string
@@ -254,20 +256,19 @@ func SendMail(httpResp http.ResponseWriter, httpReq *http.Request) {
 	}
 
 	replyTplFile := ""
-	contactEmail := viper.GetString("CONTACT_REPLY_EMAIL")
 	if contactRequest.RequestTarget == "demo" {
 		replyTplFile = viper.GetString("TEMPLATE_DEMO_REQUEST_REPLY")
 		if replyTplFile == "" {
 			replyTplFile = "./templates/template_reply_demo_request.html"
 		}
 	} else {
-		contactEmail = contactRequest.Email
 		replyTplFile = viper.GetString("TEMPLATE_CONTACT_REQUEST_REPLY")
 		if replyTplFile == "" {
 			replyTplFile = "./templates/template_reply_contact_request.html"
 		}
 	}
 
+	contactEmail := viper.GetString("CONTACT_REPLY_EMAIL")
 	sendMailReq := NewSendMailRequest(
 		contactEmail,
 		recipients,
@@ -296,20 +297,20 @@ func SendMail(httpResp http.ResponseWriter, httpReq *http.Request) {
 		contactResponse.Message = "Invalid request, please review your input and try again."
 	}
 
-	refererURL, err := url.Parse(httpReq.Header.Get("Referer"))
+	originURL, err := url.Parse(contactRequest.OriginURI)
 	if err != nil {
-		log.Println(err.Error())
-		refererURL = &url.URL{} // continue with default (empty) url
+		log.Printf("error parsing the origin URL %s (%s)", originURL, err.Error())
+		originURL = &url.URL{} // continue with default (empty) url
 	}
 
-	q := refererURL.Query()
+	q := originURL.Query()
 	q.Set("status", contactResponse.Status)
 	q.Set("message", contactResponse.Message)
-	refererURL.RawQuery = q.Encode()
+	originURL.RawQuery = q.Encode()
 
 	respRawData, _ := json.Marshal(contactResponse)
 
-	httpResp.Header().Set("Location", refererURL.String())
+	httpResp.Header().Set("Location", originURL.String())
 	httpResp.WriteHeader(http.StatusSeeOther)
 	httpResp.Header().Set("Content-Type", "application/json; charset=UTF-8")
 	httpResp.Write(respRawData)

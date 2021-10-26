@@ -23,6 +23,8 @@
             <label for="subject">Subject</label>
             <input type="text" name="subject" id="subject"  value="" placeholder="Need help or expertise?" />
             <input type="hidden" name="target" id="target"  value="contact" />
+            <!-- Leave blank or set the value of this field is set with valid URL. If set, the backend service will use the value as redirect URL once the form submitted. -->
+            <input class="form-input" type="hidden" name="requestOrigin" id="requestOrigin"  value="" />
          </div>
          <div class="form-item">
             <label for="message">Message</label>
