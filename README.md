@@ -56,7 +56,7 @@ This project, namely `hugo-mx-gateway`, is meant to provide a RESTful API that a
 
 These are basic requirements in the today's Internet world.
 
-> While it can be tempting to use a personal email account, it's highly recommended for security and privacy reasons not do that for an internet-hosted service. Therefore, according to your situation, you may need to ask for an SMTP account to your corporate's IT staff. If you're free to take the decision, you can opt for a cloud-based SMTP service like SendGrid, Mailgun, and Mailjet--they all offer free tier for small usage.
+> While it can be tempting to use a personal email account, it's highly recommended for security and privacy reasons to not do that. According to your needs, you may have to ask for an SMTP account to your corporate's IT staff. When applicable, you can alternatively opt for a cloud-based SMTP service like SendGrid, Mailgun or Mailjet, which typically offer free tier for small usage.
 
 # Deployment
 Consider one of the following resources according to the selected installation platform.
