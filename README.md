@@ -25,7 +25,7 @@ Table of Contents
 # Overview
 In a nutshell, `hugo-mx-gateway` provides a RESTful POST endpoint for static contact/demo request pages. It's a simple, yet a powerful tool built for this only-designated purpose.
 
-**While this project is already deployed in production for several websites, the documentation may still contain misspellings or typos.
+**This project is used in production for several static websites built with [Hugo](https://gohugo.io/).
 Contributions in any form (code/docs/ideas...) are welcomed.** 
 
 ![](hugo-mx-gateway-architecture-overview.png)
