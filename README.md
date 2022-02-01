@@ -80,9 +80,10 @@ This requires to have an active GCP account and [Google Cloud SDK](https://cloud
 * Check that `hugo-mx-gateway` is up and working
   ```
   curl https://PROJECT-ID.REGION.r.appspot.com/ 
-  {"status": "ok"}
   ```
-  Replace `PROJECT-ID` with the GCP project ID, and `REGION` with the deployment region.
+  Replace `PROJECT-ID` with the GCP project ID, and `REGION` with the deployment region.*
+  
+  The output in case of success shall be `{"status": "ok"}`.
 
 ## Deployment on a Kubernetes cluster
 There is a [Helm chart](./helm/) to ease the deployment on Kubernetes clusters. 
@@ -105,8 +106,10 @@ Proceed with the deployment as follows:
   ```
   kubectl -n hugo-mx-gateway port-forward service/hugo-mx-gateway 8080:80
   curl http://127.0.0.1:8080/
-  {"status": "ok"}
   ```
+  
+The output in case of success shall be `{"status": "ok"}`.
+  
 
 ## Deployment on Docker
 An instance of `hugo-mx-gateway` can be quickly started on any machine running Docker.
@@ -116,7 +119,7 @@ An instance of `hugo-mx-gateway` can be quickly started on any machine running D
 * Then apply the following command:
 
   ```
-  $ docker run -d \
+  docker run -d \
     --publish 8080:8080 \
     --name 'hugo-mx-gateway' \
     -e SMTP_SERVER_ADDR="smtp.example.com:465" \
@@ -133,9 +136,9 @@ An instance of `hugo-mx-gateway` can be quickly started on any machine running D
 * Check that the container is up and functionning.
 
   ```
-  curl http://127.0.0.1:8080/ 
-  {"status": "ok"}
+  curl http://127.0.0.1:8080/
   ```
+The output in case of success shall be `{"status": "ok"}`.
 
 # Use the built-in form for Hugo
 The file `./samples/hugo-partial-contact-form.html` contains a sample HTML form for Hugo. It can be used for both contact and demo requests.
