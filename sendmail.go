@@ -297,21 +297,26 @@ func SendMail(httpResp http.ResponseWriter, httpReq *http.Request) {
 		contactResponse.Message = "Invalid request, please review your input and try again."
 	}
 
-	originURL, err := url.Parse(contactRequest.OriginURI)
-	if err != nil {
-		log.Printf("error parsing the origin URL %s (%s)", originURL, err.Error())
-		originURL = &url.URL{} // continue with default (empty) url
-	}
+	if contactRequest.OriginURI != "" {
+		originURL, err := url.Parse(contactRequest.OriginURI)
+		if err != nil {
+			log.Printf("error parsing the origin URL %s (%s)", originURL, err.Error())
+			originURL = &url.URL{} // continue with default (empty) url
+		}
 
-	q := originURL.Query()
-	q.Set("status", contactResponse.Status)
-	q.Set("message", contactResponse.Message)
-	originURL.RawQuery = q.Encode()
+		q := originURL.Query()
+		q.Set("status", contactResponse.Status)
+		q.Set("message", contactResponse.Message)
+		originURL.RawQuery = q.Encode()
+
+		httpResp.Header().Set("Location", originURL.String())
+		httpResp.WriteHeader(http.StatusSeeOther)
+	} else {
+		httpResp.WriteHeader(http.StatusOK)
+	}
 
 	respRawData, _ := json.Marshal(contactResponse)
 
-	httpResp.Header().Set("Location", originURL.String())
-	httpResp.WriteHeader(http.StatusSeeOther)
 	httpResp.Header().Set("Content-Type", "application/json; charset=UTF-8")
 	httpResp.Write(respRawData)
 }
