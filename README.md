@@ -140,6 +140,19 @@ An instance of `hugo-mx-gateway` can be quickly started on any machine running D
   ```
 The output in case of success shall be `{"status": "ok"}`.
 
+## Deployment on Debian
+
+On Debian systems starting from Debian 12 (bookworm), and Debian 11 (bullseye) with backports, `hugo-mx-gateway` can be installed from apt.
+
+* Install the package from apt
+  ```
+  apt install hugo-mx-gateway
+  ```
+* Set [configuration variables](#configuration-variables) in `/etc/default/hugo-mx-gateway`
+* Control the service using `systemctl`
+
+On Debian, the service by default only listens on localhost, and the default port is set to `8576` in order do decrease the danger of port clashes. You can either reconfigure this by setting the `HOST` and `PORT` variables, or you can add a reverse proxy in front of the gateway.
+
 # Use the built-in form for Hugo
 The file `./samples/hugo-partial-contact-form.html` contains a sample HTML form for Hugo. It can be used for both contact and demo requests.
 
