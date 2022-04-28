@@ -73,7 +73,7 @@ func main() {
 	viper.SetDefault("SMTP_CLIENT_USERNAME", "")
 	viper.SetDefault("SMTP_CLIENT_PASSWORD", "")
 	viper.SetDefault("CONTACT_REPLY_EMAIL", "noreply@company.com")
-	viper.SetDefault("CONTACT_REPLY_CC_EMAIL", "contact@company.com")
+	viper.SetDefault("CONTACT_REPLY_BCC_EMAIL", "contact@company.com")
 	viper.SetDefault("EMAIL_SUBJECT", "Thanks to try our product")
 	viper.SetDefault("DEMO_URL", "http://company.com/product-demo")
 
