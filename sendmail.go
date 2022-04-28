@@ -75,10 +75,6 @@ func (m *SendMailRequest) Execute() error {
 	// Connect to the SMTP Server
 	smtpServerAddr := viper.GetString("SMTP_SERVER_ADDR")
 	smtpServerHost, _, _ := net.SplitHostPort(smtpServerAddr)
-	smtpClientAuth := smtp.PlainAuth("",
-		viper.GetString("SMTP_CLIENT_USERNAME"),
-		viper.GetString("SMTP_CLIENT_PASSWORD"),
-		smtpServerHost)
 
 	// TLS config
 	tlsconfig := &tls.Config{
@@ -100,8 +96,15 @@ func (m *SendMailRequest) Execute() error {
 	}
 	defer smtpClient.Quit()
 
-	if err = smtpClient.Auth(smtpClientAuth); err != nil {
-		return fmt.Errorf("failed authenticating to smtp server (%s)", err)
+	// Authenticate if configured
+	if viper.GetString("SMTP_CLIENT_USERNAME") != "" {
+		smtpClientAuth := smtp.PlainAuth("",
+			viper.GetString("SMTP_CLIENT_USERNAME"),
+			viper.GetString("SMTP_CLIENT_PASSWORD"),
+			smtpServerHost)
+		if err = smtpClient.Auth(smtpClientAuth); err != nil {
+			return fmt.Errorf("failed authenticating to smtp server (%s)", err)
+		}
 	}
 
 	// Initialize a mail transaction
