@@ -3,7 +3,7 @@
 
 From the source tree, the file `samples/hugo-partial-contact-form.html` contains a sample HTML form for Hugo. It can be used for both contact and demo requests.
 
-![Screenshot of a successful submission](./screenshots/form-submitted-and-processed-with-success.png)
+![Screenshot of a successful submission](../screenshots/form-submitted-and-processed-with-success.png)
 
 Open the file in your favorite editor and review it.
 
