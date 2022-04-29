@@ -5,7 +5,6 @@
 ---
 
 - [Overview](#overview)
-  - [Hugo-mx-gateway in a Nutshell](#hugo-mx-gateway-in-a-nutshell)
 - [Getting Started](#getting-started)
 - [License & Copyrights](#license--copyrights)
 - [Support & Contributions](#support--contributions)
@@ -23,11 +22,12 @@ This project, namely `hugo-mx-gateway`, is meant to provide a RESTful API that a
 Use the following resoures to deploy and get started with hugo-mx-gateway.
 
 * [Deployment on Kubenetes](./docs/deployment-on-kubernetes.md)
-* [Deployment on Google Computinf Engine](./docs/deployment-on-kubernetes.md)
+* [Deployment on Google Computing Engine](./docs/deployment-on-kubernetes.md)
 * [Deployment on Docker](./docs/deployment-on-kubernetes.md)
 * [Deployment on Debian](./docs/deployment-on-debian.md)
 * [Configuration Variables](./docs/configuration-variables.md)
 * [Sample of contact form for Hugo](./docs/sample-of-hugo-dontact-form.md)
+* [Design Fundamentals](./docs/design-fundamentals.md)
 
 # License & Copyrights
 This tool (code and documentation) is licensed under the terms of Apache 2.0 License. Read the [LICENSE](LICENSE) file for more details on the license terms.
