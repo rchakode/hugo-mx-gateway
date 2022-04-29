@@ -17,15 +17,15 @@ You're at the right place.
 
 This project, namely `hugo-mx-gateway`, is meant to provide a RESTful API that adds the dynamicity required to handle contactdemo requests for static web sites. It's a simple, yet a powerful tool built for this only-designated purpose.
 
-![Screenshot of a successful submission](./screenshots/form-submitted-and-processed-with-success.png)
+
+![](hugo-mx-gateway-architecture-overview.png)
+
 
 ## Hugo-mx-gateway in a Nutshell
 `hugo-mx-gateway` provides a RESTful POST endpoint for static contact/demo request pages. It's a simple, yet a powerful tool built for this only-designated purpose.
 
 > **This project is used in production for several static websites built with [Hugo](https://gohugo.io/);
 Contributions in any form (code/docs/ideas...) are welcomed.** 
-
-![](hugo-mx-gateway-architecture-overview.png)
 
 
 # Getting Started
