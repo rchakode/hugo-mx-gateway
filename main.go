@@ -77,6 +77,7 @@ func main() {
 	viper.SetDefault("EMAIL_SUBJECT", "Thanks to try our product")
 	viper.SetDefault("DEMO_URL", "http://company.com/product-demo")
 
+	host := os.Getenv("HOST")
 	port := os.Getenv("PORT")
 	if port == "" {
 		port = "8080"
@@ -90,5 +91,5 @@ func main() {
 
 	log.Printf("Listening on port %s", port)
 
-	log.Fatal(http.ListenAndServe(":"+port, nil))
+	log.Fatal(http.ListenAndServe(host+":"+port, nil))
 }
