@@ -176,6 +176,9 @@ func MuxSecAllowedDomainsHandler(next http.Handler) http.Handler {
 			return
 		}
 
+		// Send the allowed origin back as CORS header
+		w.Header().Set("Access-Control-Allow-Origin", r.Header["Origin"][0])
+
 		next.ServeHTTP(w, r)
 	})
 }
