@@ -10,16 +10,16 @@
 - [Support & Contributions](#support--contributions)
 
 # Overview
-Did you ever experience building a static website (e.g. using [Hugo](https://gohugo.io/) or whatever alternative), then did get stuck when coming the time to add a contact/demo request form?
+Did you ever experience building a static website (e.g. using [Hugo](https://gohugo.io/)) then got stuck when coming the time to add a contact/demo request form?
 
 You're at the right place.
 
-This project, namely `hugo-mx-gateway`, is meant to provide a RESTful API that adds the dynamicity required to handle contactdemo requests for static web sites. It's a simple, yet a powerful tool built for this only-designated purpose.
+`hugo-mx-gateway` provides a RESTful API that adds the dynamicity required to handle contact/demo requests for your static websites. It's a simple, yet a powerful tool built for this only-designated purpose.
 
 ![](hugo-mx-gateway-architecture-overview.png)
 
 # Getting Started
-Use the following resoures to deploy and get started with hugo-mx-gateway.
+The following resources will enable you to deploy and get started with hugo-mx-gateway.
 
 * [Deployment on Kubenetes](./docs/deployment-on-kubernetes.md)
 * [Deployment on Google Computing Engine](./docs/deployment-on-kubernetes.md)
