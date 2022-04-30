@@ -1,11 +1,20 @@
 # Deploying hugo-mx-gateway on Google App Engine
 
+  - [Requirements](#requirements)
+  - [Setup Procedure](#setup-procedure)
 
-This requires to have an active GCP account and [Google Cloud SDK](https://cloud.google.com/sdk) (gcloud) installed on your work station.
+## Requirements
+This procedure requires to have: 
+ * an active GCP account.
+ * [Google Cloud SDK](https://cloud.google.com/sdk) (gcloud) installed and configured on your work station.
+ * The credentials configured for gcloud must have sufficient permissions to create an App Engine application.
 
+
+## Setup Procedure
 * Create/select a GCP project to deploy `hugo-mx-gateway`. 
   
   Note that each GCP project can hold only a single App Engine instance. Several applications can be co-hosted as services for the root App Engine instance. In this case, a new application has to be declared as `service` in the `app.yaml` file.
+  
 * Create the Google App Engine configuration file 
   ```
   cp app.yaml.sample app.yaml

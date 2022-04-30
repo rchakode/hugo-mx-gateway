@@ -1,11 +1,10 @@
 # Deploying hugo-mx-gateway on Docker
 
+As described in the below procedure, an instance of `hugo-mx-gateway` can be quickly started on any machine running Docker.
 
-An instance of `hugo-mx-gateway` can be quickly started on any machine running Docker.
+First review the [configuration variables](./configuration-variables.md). 
 
-* Please first review the [configuration variables](#configuration-variables) and adapt them appropriately. 
-
-* Then apply the following command:
+Then apply the following command while setting the configuration variables appropriately:
 
   ```
   docker run -d \
@@ -22,7 +21,7 @@ An instance of `hugo-mx-gateway` can be quickly started on any machine running D
     rchakode/hugo-mx-gateway
   ```
 
-* Check that the container is up and functionning.
+Check that the container is up and functionning.
 
   ```
   curl http://127.0.0.1:8080/

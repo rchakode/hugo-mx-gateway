@@ -1,7 +1,6 @@
 
 # Sample contact form for Hugo
 
-- [Sample contact form for Hugo](#sample-contact-form-for-hugo)
   - [Overview](#overview)
   - [Setup Procedure](#setup-procedure)
 

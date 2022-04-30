@@ -1,9 +1,14 @@
 # Deploying hugo-mx-gateway on Kubernetes
 
+  - [Overview](#overview)
+  - [Setup Procedure](#setup-procedure)
+
+## Overview
 From the source tree, the folder `./helm/` contains Helm manifest to ease the deployment of hugo-mx-gateway on Kubernetes clusters. 
 
 > **Important:** The chart is validated with Helm 3 and the pod is run in an unprivileged mode within a **Security Context**.
 
+## Setup Procedure
 Proceed with the deployment as follows:
 
 * First edit the [values.yaml](./helm/values.yaml) file to set [configuration values](#configuration-variables) appropriately.
