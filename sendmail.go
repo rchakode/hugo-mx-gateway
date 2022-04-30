@@ -97,7 +97,7 @@ func (m *SendMailRequest) Execute() error {
 	defer smtpClient.Quit()
 
 	// Authenticate if configured
-	if viper.GetString("SMTP_CLIENT_USERNAME") != "" {
+	if viper.GetBool("SMTP_AUTHENTICATION_ENABLED") {
 		smtpClientAuth := smtp.PlainAuth("",
 			viper.GetString("SMTP_CLIENT_USERNAME"),
 			viper.GetString("SMTP_CLIENT_PASSWORD"),

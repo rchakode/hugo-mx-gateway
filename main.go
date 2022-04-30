@@ -76,6 +76,7 @@ func main() {
 	viper.SetDefault("CONTACT_REPLY_BCC_EMAIL", "contact@company.com")
 	viper.SetDefault("EMAIL_SUBJECT", "Thanks to try our product")
 	viper.SetDefault("DEMO_URL", "http://company.com/product-demo")
+	viper.SetDefault("SMTP_AUTHENTICATION_ENABLED", true)
 
 	host := os.Getenv("HOST")
 	port := os.Getenv("PORT")

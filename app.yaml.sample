@@ -13,6 +13,7 @@ env_variables:
   TEMPLATE_CONTACT_REQUEST_REPLY: templates/template_reply_contact_request.html
   SMTP_SERVER_ADDR: "smtp.mailgun.org:587"
   SMTP_VERITY_CERT: true
+  SMTP_AUTHENTICATION_ENABLED: true
   SMTP_CLIENT_USERNAME: "postmaster@example.com"
   SMTP_CLIENT_PASSWORD: "postmasterSecretPassWord"
   CONTACT_REPLY_EMAIL: "noreply@example.com"
