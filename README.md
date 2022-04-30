@@ -26,7 +26,7 @@ The following resources will enable you to deploy and get started with hugo-mx-g
 * [Deployment on Docker](./docs/deployment-on-kubernetes.md)
 * [Deployment on Debian](./docs/deployment-on-debian.md)
 * [Configuration Variables](./docs/configuration-variables.md)
-* [Sample of contact form for Hugo](./docs/sample-of-hugo-dontact-form.md)
+* [Sample of contact form for Hugo](./docs/sample-contact-form-for-hugo.md)
 * [Design Fundamentals](./docs/design-fundamentals.md)
 
 # License & Copyrights
