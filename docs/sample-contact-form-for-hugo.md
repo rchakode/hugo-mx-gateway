@@ -1,6 +1,11 @@
 
 # Sample contact form for Hugo
 
+- [Sample contact form for Hugo](#sample-contact-form-for-hugo)
+  - [Overview](#overview)
+  - [Setup Procedure](#setup-procedure)
+
+## Overview
 From the source tree, the file `samples/hugo-partial-contact-form.html` contains a sample HTML form for Hugo (a screenshot is provided below). 
 
 > This form can be used for a contact or a demo form. Indeed, as shown in the procedure below, the form is configured to be rendered specifically according to a tag set in the Hugo page content.
