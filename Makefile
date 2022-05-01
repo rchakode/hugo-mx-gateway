@@ -17,7 +17,7 @@ vendor:
 	$(GOVENDOR)
 	
 build:
-	$(GOBUILD) $(GOBUILD_FLAGS) -o $(PACKAGE_NAME) -v
+	env GOOS=linux GOARCH=amd64 $(GOBUILD) $(GOBUILD_FLAGS) -o $(PACKAGE_NAME) -v
 
 build-ci:
 	docker run --rm \
