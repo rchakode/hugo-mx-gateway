@@ -23,7 +23,7 @@ The following resources will enable you to deploy and get started with hugo-mx-g
 
 * [Deployment on Kubenetes](./docs/deployment-on-kubernetes.md)
 * [Deployment on Google Computing Engine](./docs/deployment-on-kubernetes.md)
-* [Deployment on Docker](./docs/deployment-on-kubernetes.md)
+* [Deployment on Docker](./docs/deployment-on-docker.md)
 * [Deployment on Debian](./docs/deployment-on-debian.md)
 * [Configuration Variables](./docs/configuration-variables.md)
 * [Sample contact form for Hugo](./docs/sample-contact-form-for-hugo.md)
