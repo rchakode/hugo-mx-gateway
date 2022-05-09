@@ -1,5 +1,8 @@
-![](https://img.shields.io/github/license/rchakode/hugo-mx-gateway.svg?label=License)
-[![Actions Status](https://github.com/rchakode/hugo-mx-gateway/workflows/Build/badge.svg)](https://github.com/rchakode/hugo-mx-gateway/actions)
+![logo-thumbnail](hugo-mx-gateway-thumbnail.png)
+
+![Apache License](https://img.shields.io/github/license/rchakode/kube-opex-analytics.svg?label=License&style=for-the-badge)
+[![GitHub Actions Status](<https://img.shields.io/github/workflow/status/rchakode/hugo-mx-gateway/Build?logo=GitHub&style=for-the-badge>)](https://github.com/rchakode/kube-opex-analytics/actions)
+![Docker pulls](https://raster.shields.io/docker/pulls/rchakode/hugo-mx-gateway.png?label=Docker%20Pulls&style=for-the-badge)
 
 
 ---
