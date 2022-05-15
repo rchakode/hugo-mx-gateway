@@ -11,7 +11,7 @@ Then apply the following command while setting the configuration variables appro
     --publish 8080:8080 \
     --name 'hugo-mx-gateway' \
     -e SMTP_SERVER_ADDR="smtp.example.com:465" \
-    -e SMTP_VERITY_CERT=true \
+    -e SMTP_SKIP_VERIFY_CERT=false \
     -e SMTP_CLIENT_USERNAME="postmaster@example.com" \
     -e SMTP_CLIENT_PASSWORD="postmasterSecretPassWord" \
     -e CONTACT_REPLY_EMAIL="noreply@example.com" \
