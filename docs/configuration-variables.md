@@ -3,7 +3,7 @@
 Regardless of the deployment platform (Google App Engine, Kubernetes, Docker), the following configuration parameters must be provided when deploying hugo-mx-gateway.
 
 * `SMTP_SERVER_ADDR`: Set the address of the SMTP server in the form of `host:port`. It's required that the SMTP server being supporting TLS.
-* `SMTP_VERITY_CERT`: Tell whether the SMTP certificate should be validated against top level authorities. If you're using a self-signed certificate on the SMTP server, this value must be set to `false`.
+* `SMTP_SKIP_VERIFY_CERT`: Tell whether the SMTP certificate should be validated against top level authorities. If you're using a self-signed certificate on the SMTP server, this value should be set to `true`.
 * `SMTP_AUTHENTICATION_ENABLED`: Boolean (default: `true`) indicating whether SMTP authentication is required or not. If true, the variables `SMTP_CLIENT_USERNAME` and `SMTP_CLIENT_PASSWORD` are used the perform the authentication.
 * `SMTP_CLIENT_USERNAME`: Set the username to connect to the SMTP server.
 * `SMTP_CLIENT_PASSWORD`: Set the password to connect to the SMTP server.

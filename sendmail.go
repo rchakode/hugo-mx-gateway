@@ -78,7 +78,7 @@ func (m *SendMailRequest) Execute() error {
 
 	// TLS config
 	tlsconfig := &tls.Config{
-		InsecureSkipVerify: viper.GetBool("SMTP_VERITY_CERT"),
+		InsecureSkipVerify: viper.GetBool("SMTP_SKIP_VERIFY_CERT"),
 		ServerName:         smtpServerHost,
 	}
 
