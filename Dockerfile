@@ -1,5 +1,8 @@
 FROM alpine:3.11.6
 
+ARG GOOS="linux"
+ARG GOARCH="amd64"
+
 ARG RUNTIME_USER="mxgateway"
 ARG RUNTIME_USER_UID=4583
 
