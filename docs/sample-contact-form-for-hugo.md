@@ -26,3 +26,5 @@ From the source tree, the file `samples/hugo-partial-contact-form.html` contains
    tags: [contact]
    ---
    ```
+   ## Hugo Contact Form
+   [hugo contact form](https://fabform.io/a/hugo-contact-form)
