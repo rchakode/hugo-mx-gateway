@@ -17,10 +17,10 @@ limitations under the License.
 package main
 
 import (
+	"log"
 	"net/http"
 	"os"
 	"time"
-	"log"
 
 	"github.com/spf13/viper"
 )
@@ -40,8 +40,9 @@ var routes = Routes{
 		"POST",
 		"/sendmail",
 		MuxSecAllowedDomainsHandler(
-			MuxSecReCaptchaHandler(
-				http.HandlerFunc(SendMail))),
+			MuxSecHoneypotHandler(
+				MuxSecReCaptchaHandler(
+					http.HandlerFunc(SendMail)))),
 	},
 	Route{
 		"Healthz",
