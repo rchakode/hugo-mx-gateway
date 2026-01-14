@@ -7,7 +7,7 @@ GOBUILD_FLAGS=-a -tags netgo -ldflags '-w -extldflags "-static"'
 GOCLEAN=$(GOCMD) clean
 GOTEST=$(GOCMD) test
 GOVENDOR=$(GOCMD) mod vendor
-GOIMAGE=golang:1.23.10
+GOIMAGE=golang:1.24.11
 UPX=upx
 
 all: deps test build
