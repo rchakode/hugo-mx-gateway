@@ -1,6 +1,6 @@
 module hugo-mx-gateway
 
-go 1.23
+go 1.23.10
 
 require (
 	github.com/dpapathanasiou/go-recaptcha v0.0.0-20190121160230-be5090b17804
