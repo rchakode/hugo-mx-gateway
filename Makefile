@@ -28,7 +28,7 @@ build-ci:
 	-v "$(PWD)":/app \
 	-w /app \
 	$(GOIMAGE) \
-	go build -a -tags netgo -ldflags '-w -extldflags "-static"' -o "$(PACKAGE_NAME)" -v
+	go build -buildvcs=false -a -tags netgo -ldflags '-w -extldflags "-static"' -o "$(PACKAGE_NAME)" -v
 	
 container: build-ci
 	docker build -t $(DOCKER_IMAGE_REPO):$$(date +%s) .

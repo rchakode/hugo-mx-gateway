@@ -1,19 +1,13 @@
-FROM alpine:3.11.6
+FROM gcr.io/distroless/static-debian12:nonroot
 
-ARG GOOS="linux"
-ARG GOARCH="amd64"
-
-ARG RUNTIME_USER="mxgateway"
-ARG RUNTIME_USER_UID=4583
-
-RUN addgroup -g $RUNTIME_USER_UID $RUNTIME_USER && \
-    adduser --disabled-password --no-create-home  --gecos "" \
-    --home /app --ingroup $RUNTIME_USER --uid $RUNTIME_USER_UID  $RUNTIME_USER
-
-COPY entrypoint.sh bin/hugo-mx-gateway  LICENSE /app/
-COPY templates /app/templates
-
-RUN chown -R $RUNTIME_USER:$RUNTIME_USER /app
+# Copie avec ownership vers nonroot (UID/GID 65532)
+COPY --chown=65532:65532 bin/hugo-mx-gateway LICENSE /app/
+COPY --chown=65532:65532 templates /app/templates
 
 WORKDIR /app
-ENTRYPOINT ["sh", "./entrypoint.sh"]
+
+# User nonroot prédéfini dans l'image distroless
+USER 65532:65532
+
+# Exécution directe du binaire
+ENTRYPOINT ["/app/hugo-mx-gateway"]
