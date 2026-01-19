@@ -30,7 +30,7 @@ HTTP POST /sendmail
     ↓
 MuxSecAllowedDomainsHandler  → CORS origin validation against ALLOWED_ORIGINS
     ↓
-MuxSecHoneypotHandler        → Anti-spam: rejects if x-honeypot-* fields are non-empty
+MuxSecHoneypotHandler        → Anti-spam: rejects if website fields are non-empty
     ↓
 MuxSecReCaptchaHandler       → Optional Google reCaptcha v3 verification
     ↓
@@ -75,7 +75,9 @@ All configuration via environment variables (Viper):
 - Configuration via environment variables only (no config files)
 - Security middleware pattern: wrap handlers for validation layers
 
-## Docker/Deployment
+## Deployment
+
+Deployment options: Docker, Kubernetes (via Helm), Google App Engine, or any cloud VM.
 
 - Container runs as non-root user `mxgateway` (UID 4583)
 - Base image: Alpine Linux
