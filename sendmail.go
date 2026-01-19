@@ -216,13 +216,13 @@ func MuxSecReCaptchaHandler(next http.Handler) http.Handler {
 }
 
 // MuxSecHoneypotHandler rejects requests where fields starting with
-// `x-honeypot-` are present and not empty
+// `website` are present and not empty
 func MuxSecHoneypotHandler(next http.Handler) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		_ = r.ParseForm()
 
 		for key, values := range r.Form {
-			if strings.HasPrefix(strings.ToLower(key), "x-honeypot-") {
+			if strings.HasPrefix(strings.ToLower(key), "website") {
 				for _, val := range values {
 					if trimmed := strings.TrimSpace(val); trimmed != "" {
 						log.Printf("Honeypot field was non-empty: %s=%s", key, trimmed)
