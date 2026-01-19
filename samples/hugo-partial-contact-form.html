@@ -36,6 +36,11 @@
             <input type="hidden" name="target" id="target"  value="demo" />
          </div>
          {{ end }}
+         <div class="form-item">
+            <label style="display:none">
+               Website: <input type="text" name="website" value="" autocomplete="off" tabindex="-1" />
+            </label>
+         </div>
          <!-- uncomment the below div when enabling reCaptcha
          <div class="g-recaptcha" data-sitekey="{{.Site.Params.reCaptchaPrivateKey}}"></div>
          -->
