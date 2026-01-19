@@ -21,13 +21,19 @@ You're at the right place.
 
 ![](hugo-mx-gateway-architecture-overview.png)
 
+## Key Benefits
+
+- **Lightweight & Purpose-built** — A single Go binary designed specifically for contact and demo request forms
+- **Security-first** — Built-in CORS validation, honeypot spam protection, and optional reCAPTCHA support
+- **Flexible Deployment** — Quick Start on Docker, Kubernetes (via Helm), Google App Engine, or any cloud VM
+- **Simple Configuration** — All settings via environment variables, no config files needed
+
 # Getting Started
 The following resources will enable you to deploy and get started with hugo-mx-gateway.
 
 * [Deployment on Kubernetes](./docs/deployment-on-kubernetes.md)
 * [Deployment on Google Compute Engine](./docs/deployment-on-google-compute-engine.md)
 * [Deployment on Docker](./docs/deployment-on-docker.md)
-* [Deployment on Debian](./docs/deployment-on-debian.md)
 * [Configuration Variables](./docs/configuration-variables.md)
 * [Sample contact form for Hugo](./docs/sample-contact-form-for-hugo.md)
 * [Design Fundamentals](./docs/design-fundamentals.md)
