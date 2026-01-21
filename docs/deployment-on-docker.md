@@ -18,7 +18,7 @@ Then apply the following command while setting the configuration variables appro
     -e CONTACT_REPLY_BCC_EMAIL="contact@example.com" \
     -e DEMO_URL="https://demo.example.com/" \
     -e ALLOWED_ORIGINS="127.0.0.1,example.com" \
-    rchakode/hugo-mx-gateway
+    docker.io/rchakoder/hugo-mx-gateway
   ```
 
 Check that the container is up and functionning.
